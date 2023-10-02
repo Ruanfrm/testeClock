@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Orbitron&display=swap">
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #000;
+            color: #00ff00;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flip-clock {
+            font-size: 3rem;
+            font-weight: bold;
+            background-color: #fff;
+            padding: 20px;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            display: flex;
+        }
+
+        .flip-page {
+            width: 2ch;
+            height: 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateY(0);
+            transition: transform 0.6s;
+        }
+
+        .change {
+            transform: translateY(-30%);
+        }
+    </style>
+</head>
+<body>
+    <div class="flip-clock" id="clock">
+        <div class="flip-page" id="hours"></div>
+        <div class="flip-page" id="minutes"></div>
+        <div class="flip-page" id="seconds"></div>
+    </div>
+
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            
+            updateFlipPage('hours', hours);
+            updateFlipPage('minutes', minutes);
+            updateFlipPage('seconds', seconds);
+        }
+
+        function updateFlipPage(id, value) {
+            const flipPage = document.getElementById(id);
+            const currentValue = flipPage.textContent;
+            
+            if (currentValue !== value) {
+                flipPage.classList.add('change');
+                setTimeout(() => {
+                    flipPage.textContent = value;
+                    flipPage.classList.remove('change');
+                }, 600);
+            }
+        }
+
+        setInterval(updateClock, 1000); // Atualiza a cada segundo
+        updateClock(); // Chama a função para iniciar imediatamente
+    </script>
+</body>
+</html>
